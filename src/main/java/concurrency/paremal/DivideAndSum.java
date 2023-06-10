@@ -15,11 +15,10 @@ public class DivideAndSum extends RecursiveTask<Integer> {
 	private int starInclusive;
 	private int endInclusive;
 
-	public DivideAndSum(int[] arrayDetl, int starInclusive, int endInclusive) {
+	public DivideAndSum(int[] arrayDetl) {
 		super();
 		this.dataArray = arrayDetl;
-		this.starInclusive = starInclusive;
-		this.endInclusive = endInclusive;
+		
 	}
 
 	public int[] getArrayDetl() {
@@ -48,6 +47,8 @@ public class DivideAndSum extends RecursiveTask<Integer> {
 
 	@Override
 	protected Integer compute() {
+		starInclusive=0;
+		endInclusive=dataArray.length;
 		System.out.println(starInclusive + ":" + endInclusive);
 		if (dataArray.length <= 2) {
 			int sum = Arrays.stream(dataArray).sum();
@@ -55,17 +56,20 @@ public class DivideAndSum extends RecursiveTask<Integer> {
 			return sum;
 		}
 		int midPoint = (endInclusive - starInclusive) / 2;
+		printArray(dataArray);System.out.println();
 		int[] intARLeft = Arrays.copyOf(dataArray, midPoint+1);
-		int[] intARRight = Arrays.copyOfRange(dataArray, midPoint+1, dataArray.length);
-		DivideAndSum divideAndSumLeft = new DivideAndSum(intARLeft, 0, intARLeft.length);
-		DivideAndSum divideAndSumRight = new DivideAndSum(intARRight, 0, intARRight.length);
+		printArray(intARLeft);System.out.println();
+		int[] intARRight = Arrays.copyOfRange(dataArray, midPoint+1, endInclusive);
+		printArray(intARRight);
+		DivideAndSum divideAndSumLeft = new DivideAndSum(intARLeft);
+		DivideAndSum divideAndSumRight = new DivideAndSum(intARRight);
 		divideAndSumRight.fork();
 		return divideAndSumLeft.compute() + divideAndSumRight.join();
 	}
 
 	public static void main(String[] args) {
-		int[] intArr = { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
-		DivideAndSum divideAndSum = new DivideAndSum(intArr, 0, 51);
+		int[] intArr = { 1,2,3,4,5,6,7,8,9,3,10,100,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+		DivideAndSum divideAndSum = new DivideAndSum(intArr);
 		ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
 		int result = forkJoinPool.invoke(divideAndSum);
 		System.out.println(result);

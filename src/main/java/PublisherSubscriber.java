@@ -1,2 +1,6 @@
-package PACKAGE_NAME;public class PublisherSubscriber {
+public class PublisherSubscriber {
+    /*
+    this class using SubmissionPublisher class and Flow.Subscriber class
+     */
+
 }

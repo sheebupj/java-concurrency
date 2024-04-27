@@ -56,9 +56,11 @@ public class DivideAndSum extends RecursiveTask<Integer> {
 			return sum;
 		}
 		int midPoint = (endInclusive - starInclusive) / 2;
-		printArray(dataArray);System.out.println();
+		printArray(dataArray);
+		System.out.println();
 		int[] intARLeft = Arrays.copyOf(dataArray, midPoint+1);
-		printArray(intARLeft);System.out.println();
+		printArray(intARLeft);
+		System.out.println();
 		int[] intARRight = Arrays.copyOfRange(dataArray, midPoint+1, endInclusive);
 		printArray(intARRight);
 		DivideAndSum divideAndSumLeft = new DivideAndSum(intARLeft);
@@ -68,11 +70,12 @@ public class DivideAndSum extends RecursiveTask<Integer> {
 	}
 
 	public static void main(String[] args) {
-		int[] intArr = { 1,2,3,4,5,6,7,8,9,3,10,100,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+		int[] intArr = { 1,2,3,4,5,6,7,8,9,10,11,12,13,14,15};
 		DivideAndSum divideAndSum = new DivideAndSum(intArr);
 		ForkJoinPool forkJoinPool = ForkJoinPool.commonPool();
 		int result = forkJoinPool.invoke(divideAndSum);
-		System.out.println(result);
+		Arrays.stream(intArr).forEach(n-> System.out.println(n));
+		System.out.println("sum of above numbers:"+ result);
 	}
 
 	void printArray(int[] intArr) {
